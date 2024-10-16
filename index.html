@@ -1,0 +1,94 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Download YouTube Playlist</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 300px;
+        }
+        h1 {
+            text-align: center;
+        }
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #218838;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Download Playlist</h1>
+    <form id="playlistForm">
+        <input type="text" id="playlistUrl" placeholder="Enter YouTube Playlist URL" required>
+        <button type="submit">Download</button>
+    </form>
+    <p id="message"></p>
+</div>
+
+<script>
+    document.getElementById("playlistForm").addEventListener("submit", async function(event) {
+        event.preventDefault();
+        
+        const playlistUrl = document.getElementById("playlistUrl").value;
+        const messageElement = document.getElementById("message");
+        
+        try {
+            const response = await fetch('http://127.0.0.1:8000/download/', {
+    method: 'POST',
+    headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+    },
+    body: new URLSearchParams({
+        'playlist_url': playlistUrl
+    })
+});            
+            const result = await response.json();
+            
+            if (result.status === 'success') {
+                messageElement.textContent = "Download started!";
+                messageElement.style.color = 'green';
+            } else {
+                messageElement.textContent = `Error: ${result.message}`;
+                messageElement.style.color = 'red';
+            }
+        } catch (error) {
+            messageElement.textContent = `Error: ${error.message}`;
+            messageElement.style.color = 'red';
+        }
+    });
+</script>
+
+</body>
+</html>
