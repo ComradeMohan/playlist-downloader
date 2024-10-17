@@ -1,8 +1,5 @@
-yt-dlp
 fastapi
 uvicorn
-python-multipart
+yt-dlp
 pydantic
 aiofiles
-shutil   
-zipfile  
