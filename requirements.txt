@@ -2,3 +2,7 @@ yt-dlp
 fastapi
 uvicorn
 python-multipart
+pydantic
+aiofiles
+shutil   
+zipfile  
